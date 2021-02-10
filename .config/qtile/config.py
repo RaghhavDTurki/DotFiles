@@ -33,7 +33,7 @@ from libqtile.config import Drag, Key, Screen, Group, Drag, Click, Rule
 from libqtile.command import lazy
 from libqtile import layout, bar, widget, hook
 from libqtile.widget import Spacer
-#import arcobattery
+import arcobattery
 
 #mod4 or mod = super key
 mod = "mod4"
@@ -61,8 +61,8 @@ keys = [
     Key([], "F12", lazy.spawn('xfce4-terminal --drop-down')),
 
 # SUPER + FUNCTION KEYS
-
-    Key([mod], "e", lazy.spawn('atom')),
+    Key([mod], "j", lazy.spawn('jgmenu_run')),
+    Key([mod], "e", lazy.spawn('emacs')),
     Key([mod], "c", lazy.spawn('conky-toggle')),
     Key([mod], "f", lazy.window.toggle_fullscreen()),
     Key([mod], "m", lazy.spawn('pragha')),
@@ -70,12 +70,12 @@ keys = [
     Key([mod], "r", lazy.spawn('rofi-theme-selector')),
     Key([mod], "t", lazy.spawn('alacritty')),
     Key([mod], "v", lazy.spawn('pavucontrol')),
-    Key([mod], "w", lazy.spawn('vivaldi-stable')),
+    Key([mod], "w", lazy.spawn('google-chrome-stable')),
     Key([mod], "x", lazy.spawn('arcolinux-logout')),
     Key([mod], "Escape", lazy.spawn('xkill')),
     Key([mod], "Return", lazy.spawn('alacritty')),
     Key([mod], "KP_Enter", lazy.spawn('alacritty')),
-    Key([mod], "F1", lazy.spawn('vivaldi-stable')),
+    Key([mod], "F1", lazy.spawn('google-chrome-stable')),
     Key([mod], "F2", lazy.spawn('atom')),
     Key([mod], "F3", lazy.spawn('inkscape')),
     Key([mod], "F4", lazy.spawn('gimp')),
@@ -91,7 +91,7 @@ keys = [
 # SUPER + SHIFT KEYS
 
     Key([mod, "shift"], "Return", lazy.spawn('thunar')),
-    Key([mod, "shift"], "d", lazy.spawn("dmenu_run -i -nb '#191919' -nf '#fea63c' -sb '#fea63c' -sf '#191919' -fn 'NotoMonoRegular:bold:pixelsize=14'")),
+    Key([mod, "shift"], "d", lazy.spawn("dmenu_run -i -fn 'NotoMonoRegular:bold:pixelsize=18'")),
     Key([mod, "shift"], "q", lazy.window.kill()),
     Key([mod, "shift"], "r", lazy.restart()),
     Key([mod, "control"], "r", lazy.restart()),
@@ -105,7 +105,7 @@ keys = [
     Key(["mod1", "control"], "b", lazy.spawn('thunar')),
     Key(["mod1", "control"], "c", lazy.spawn('catfish')),
     Key(["mod1", "control"], "e", lazy.spawn('arcolinux-tweak-tool')),
-    Key(["mod1", "control"], "f", lazy.spawn('firefox')),
+    Key(["mod1", "control"], "f", lazy.spawn('google-chrome-stable')),
     Key(["mod1", "control"], "g", lazy.spawn('google-chrome-stable')),
     Key(["mod1", "control"], "i", lazy.spawn('nitrogen')),
     Key(["mod1", "control"], "k", lazy.spawn('arcolinux-logout')),
@@ -115,16 +115,16 @@ keys = [
     Key(["mod1", "control"], "p", lazy.spawn('pamac-manager')),
     Key(["mod1", "control"], "r", lazy.spawn('rofi-theme-selector')),
     Key(["mod1", "control"], "s", lazy.spawn('spotify')),
-    Key(["mod1", "control"], "t", lazy.spawn('termite')),
+    Key(["mod1", "control"], "t", lazy.spawn('alacritty')),
     Key(["mod1", "control"], "u", lazy.spawn('pavucontrol')),
-    Key(["mod1", "control"], "v", lazy.spawn('vivaldi-stable')),
+    Key(["mod1", "control"], "v", lazy.spawn('google-chrome-stable')),
     Key(["mod1", "control"], "w", lazy.spawn('arcolinux-welcome-app')),
-    Key(["mod1", "control"], "Return", lazy.spawn('termite')),
+    Key(["mod1", "control"], "Return", lazy.spawn('alacritty')),
 
 # ALT + ... KEYS
 
     Key(["mod1"], "f", lazy.spawn('variety -f')),
-    Key(["mod1"], "h", lazy.spawn('urxvt -e htop')),
+    Key(["mod1"], "h", lazy.spawn('xfce4-taskmanager')),
     Key(["mod1"], "n", lazy.spawn('variety -n')),
     Key(["mod1"], "p", lazy.spawn('variety -p')),
     Key(["mod1"], "t", lazy.spawn('variety -t')),
@@ -262,16 +262,16 @@ keys = [
 groups = []
 
 # FOR QWERTY KEYBOARDS
-group_names = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0",]
+group_names = ["1", "2", "3", "4", "5", "6", "7", "8", "9",]
 
 # FOR AZERTY KEYBOARDS
 #group_names = ["ampersand", "eacute", "quotedbl", "apostrophe", "parenleft", "section", "egrave", "exclam", "ccedilla", "agrave",]
 
 #group_labels = ["1 ", "2 ", "3 ", "4 ", "5 ", "6 ", "7 ", "8 ", "9 ", "0",]
-group_labels = ["", "", "", "", "", "", "", "", "", "",]
-#group_labels = ["Web", "Edit/chat", "Image", "Gimp", "Meld", "Video", "Vb", "Files", "Mail", "Music",]
+#group_labels = ["", "", "", "", "", "", "", "", "", "",]
+group_labels = ["WWW", "DEV", "SYS", "DOC", "IMG", "VID", "FILE", "CHAT", "MUS",]
 
-group_layouts = ["monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall",]
+group_layouts = ["monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall",]
 #group_layouts = ["monadtall", "matrix", "monadtall", "bsp", "monadtall", "matrix", "monadtall", "bsp", "monadtall", "monadtall",]
 
 for i in range(len(group_names)):
@@ -326,15 +326,22 @@ def init_colors():
             ["#c0c5ce", "#c0c5ce"], # color 2
             ["#fba922", "#fba922"], # color 3
             ["#3384d0", "#3384d0"], # color 4
-            ["#f3f4f5", "#f3f4f5"], # color 5
+            ["#e1acff", "#e1acff"], # color 5
             ["#cd1f3f", "#cd1f3f"], # color 6
             ["#62FF00", "#62FF00"], # color 7
             ["#6790eb", "#6790eb"], # color 8
-            ["#a9a9a9", "#a9a9a9"]] # color 9
+            ["#8d62a9", "#8d62a9"]] # color 9
 
 
 colors = init_colors()
 
+##### MOUSE CALLBACKS #####
+
+def open_htop(qtile):
+    qtile.cmd_spawn('xfce4-taskmanager')
+
+def open_jgmenu(qtile):
+    qtile.cmd_spawn('jgmenu_run')
 
 # WIDGETS FOR THE BAR
 
@@ -349,9 +356,23 @@ widget_defaults = init_widgets_defaults()
 def init_widgets_list():
     prompt = "{0}@{1}: ".format(os.environ["USER"], socket.gethostname())
     widgets_list = [
-               widget.GroupBox(font="FontAwesome",
-                        fontsize = 16,
-                        margin_y = -1,
+               widget.TextBox(
+                        font = "Ubuntu Bold",
+                        fontsize = 14,
+                        text = "ArcoLinux  ",
+                        foreground = colors[2],
+                        background = colors[1],
+                        mouse_callbacks = {'Button1': open_jgmenu}
+                        ),
+               #widget.Sep(
+               #         linewidth = 1,
+               #         padding = 10,
+               #         foreground = colors[2],
+               #         background = colors[1]
+               #         ),
+               widget.GroupBox(font="Ubuntu Bold",
+                        fontsize = 14,
+                        margin_y = 5,
                         margin_x = 0,
                         padding_y = 6,
                         padding_x = 5,
@@ -372,8 +393,8 @@ def init_widgets_list():
                         background = colors[1]
                         ),
                widget.CurrentLayout(
-                        font = "Noto Sans Bold",
-                        foreground = colors[5],
+                        font = "Ubuntu Bold",
+                        foreground = colors[8],
                         background = colors[1]
                         ),
                widget.Sep(
@@ -382,7 +403,7 @@ def init_widgets_list():
                         foreground = colors[2],
                         background = colors[1]
                         ),
-               widget.WindowName(font="Noto Sans",
+               widget.WindowName(font="Ubuntu",
                         fontsize = 12,
                         foreground = colors[5],
                         background = colors[1],
@@ -431,20 +452,20 @@ def init_widgets_list():
                #          threshold = 80
                #          ),
                # # battery option 1  ArcoLinux Horizontal icons do not forget to import arcobattery at the top
-               # widget.Sep(
-               #          linewidth = 1,
-               #          padding = 10,
-               #          foreground = colors[2],
-               #          background = colors[1]
-               #          ),
-               # arcobattery.BatteryIcon(
-               #          padding=0,
-               #          scale=0.7,
-               #          y_poss=2,
-               #          theme_path=home + "/.config/qtile/icons/battery_icons_horiz",
-               #          update_interval = 5,
-               #          background = colors[1]
-               #          ),
+               widget.Sep(
+                        linewidth = 1,
+                        padding = 10,
+                        foreground = colors[2],
+                        background = colors[1]
+                        ),
+               arcobattery.BatteryIcon(
+                        padding=0,
+                        scale=0.7,
+                        y_poss=2,
+                        theme_path=home + "/.config/qtile/icons/battery_icons_horiz",
+                        update_interval = 5,
+                        background = colors[1]
+                        ),
                # # battery option 2  from Qtile
                # widget.Sep(
                #          linewidth = 1,
@@ -492,12 +513,13 @@ def init_widgets_list():
                         fontsize=16
                         ),
                widget.Memory(
-                        font="Noto Sans",
+                        font="Ubuntu Bold",
                         format = '{MemUsed}M/{MemTotal}M',
                         update_interval = 1,
                         fontsize = 12,
-                        foreground = colors[5],
+                        foreground = colors[2],
                         background = colors[1],
+                        mouse_callbacks = {'Button1': open_htop}
                        ),
                widget.Sep(
                         linewidth = 1,
@@ -514,10 +536,20 @@ def init_widgets_list():
                         fontsize=16
                         ),
                widget.Clock(
-                        foreground = colors[5],
+                        foreground = colors[3],
                         background = colors[1],
                         fontsize = 12,
-                        format="%Y-%m-%d %H:%M"
+                        format="%d-%m-%Y %H:%M"
+                        ),
+               widget.Backlight(
+                        foreground = colors[2],
+                        background = colors[1],
+                        font = 'Ubuntu Bold',
+                        fontsize = 12,
+                        #step = 10,
+                        #change_command = 'xbacklight -inc 5',
+                        brightness_file = '/sys/class/backlight/intel_backlight/brightness',
+                        max_brightness_file = '/sys/class/backlight/intel_backlight/max_brightness',
                         ),
                widget.Sep(
                         linewidth = 1,
@@ -574,8 +606,8 @@ dgroups_app_rules = []
 #     #########################################################
 #     ################ assgin apps to groups ##################
 #     #########################################################
-#     d["1"] = ["Navigator", "Firefox", "Vivaldi-stable", "Vivaldi-snapshot", "Chromium", "Google-chrome", "Brave", "Brave-browser",
-#               "navigator", "firefox", "vivaldi-stable", "vivaldi-snapshot", "chromium", "google-chrome", "brave", "brave-browser", ]
+#     d["1"] = ["Navigator", "Firefox", 'google-chrome-stable", 'google-chrome-snapshot", "Chromium", "Google-chrome", "Brave", "Brave-browser",
+#               "navigator", "firefox", 'google-chrome-stable", 'google-chrome-snapshot", "chromium", "google-chrome", "brave", "brave-browser", ]
 #     d["2"] = [ "Atom", "Subl3", "Geany", "Brackets", "Code-oss", "Code", "TelegramDesktop", "Discord",
 #                "atom", "subl3", "geany", "brackets", "code-oss", "code", "telegramDesktop", "discord", ]
 #     d["3"] = ["Inkscape", "Nomacs", "Ristretto", "Nitrogen", "Feh",

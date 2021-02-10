@@ -29,7 +29,6 @@ Plugin 'severin-lemaignan/vim-minimap'
 Plugin 'ap/vim-css-color'                           " Color previews for CSS
 Plugin 'tpope/vim-surround'                         " Change surrounding marks
 Plugin 'c.vim'
-Plugin 'dracula/vim', { 'name': 'dracula' }
 call vundle#end()		" required, all plugins must appear before this line.
 "colorscheme dracula
 "filetype plugin indent on    " required
@@ -257,5 +256,3 @@ set langmenu=en
 source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
 "Sourcing evrything ("don't why but you need to do it)
-
-

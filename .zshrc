@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -11,8 +18,7 @@ export ZSH=/usr/share/oh-my-zsh/
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="pygmalion"
-
+ZSH_THEME="powerlevel10k/powerlevel10k"
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
@@ -82,7 +88,7 @@ source $ZSH/oh-my-zsh.sh
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -131,7 +137,6 @@ alias ll='exa -l --color=always --group-directories-first'  # long format
 alias lt='exa -aT --color=always --group-directories-first' # tree listing
 alias l.='exa -a | egrep "^\."'
 
-
 #fix obvious typo's
 alias cd..='cd ..'
 alias pdw="pwd"
@@ -170,8 +175,8 @@ alias pacman='sudo pacman --color auto'
 alias update='sudo pacman -Syyu'
 
 # yay as aur helper - updates everything
-alias pksyua="yay -Syu --noconfirm"
-alias upall="yay -Syu --noconfirm"
+alias pksyua="paru -Syu --noconfirm"
+alias upall="paru -Syu --noconfirm"
 
 #ps
 alias psa="ps auxf"
@@ -204,7 +209,7 @@ alias kc='killall conky'
 alias hw="hwinfo --short"
 
 #skip integrity check
-alias yayskip='yay -S --mflags --skipinteg'
+alias yayskip='paru -S --mflags --skipinteg'
 alias trizenskip='trizen -S --skipinteg'
 
 #check vulnerabilities microcode
@@ -310,13 +315,16 @@ ex ()
 #in there. They will not be overwritten by skel.
 
 [[ -f ~/.zshrc-personal ]] && . ~/.zshrc-personal
-
 #neofetch
-colorscript random
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+#eval "$(starship init zsh)"
+
+source /home/raghhav/.config/broot/launcher/bash/br
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/raghhav/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+__conda_setup="$('/home/raghhav/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
@@ -328,3 +336,4 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+export HOST=$(hostname)

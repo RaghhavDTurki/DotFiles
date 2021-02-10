@@ -27,7 +27,7 @@ run dex $HOME/.config/autostart/arcolinux-welcome-app.desktop &
 feh --bg-fill /usr/share/backgrounds/arcolinux/arco-wallpaper.jpg &
 #start the conky to learn the shortcuts
 (conky -c $HOME/.config/qtile/scripts/system-overview) &
-
+run redshift -O 3000
 #IN BETA PHASE
 #start sxhkd to replace Qtile native key-bindings
 #run sxhkd -c ~/.config/qtile/sxhkd/sxhkdrc &
