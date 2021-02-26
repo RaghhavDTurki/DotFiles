@@ -19,9 +19,20 @@ function fish_user_key_bindings
   fish_vi_key_bindings
 end
 ### END OF VI MODE ###
+### SET MANPAGER
+### Uncomment only one of these!
+
+### "bat" as manpager
+#set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
+
+### "vim" as manpager
+ set -x MANPAGER '/bin/bash -c "vim -MRn -c \"set buftype=nofile showtabline=0 ft=man ts=8 nomod nolist norelativenumber nonu noma\" -c \"normal L\" -c \"nmap q :qa<CR>\"</dev/tty <(col -b)"'
+
+### "nvim" as manpager
+# set -x MANPAGER "nvim -c 'set ft=man' -"
 
 ### AUTOCOMPLETE AND HIGHLIGHT COLORS ###
-set fish_color_normal brcyan
+set fish_color_normal '#7d7d7d'
 set fish_color_autosuggestion '#7d7d7d'
 set fish_color_command brcyan
 set fish_color_error '#ff6c6b'
@@ -352,7 +363,7 @@ alias downgrada="sudo downgrade --ala-url https://bike.seedhost.eu/arcolinux/"
 #systeminfo
 alias probe="sudo -E hw-probe -all -upload"
 alias gp="git push origin main"
-colorscript random
+#colorscript random
 starship init fish | source
 
 # >>> conda initialize >>>

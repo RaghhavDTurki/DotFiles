@@ -33,6 +33,7 @@ from libqtile.config import Drag, Key, Screen, Group, Drag, Click, Rule
 from libqtile.command import lazy
 from libqtile import layout, bar, widget, hook
 from libqtile.widget import Spacer
+from libqtile import qtile
 import arcobattery
 
 #mod4 or mod = super key
@@ -40,7 +41,7 @@ mod = "mod4"
 mod1 = "alt"
 mod2 = "control"
 home = os.path.expanduser('~')
-
+myTerm = "alacritty"
 
 @lazy.function
 def window_to_prev_group(qtile):
@@ -68,13 +69,13 @@ keys = [
     Key([mod], "m", lazy.spawn('pragha')),
     Key([mod], "q", lazy.window.kill()),
     Key([mod], "r", lazy.spawn('rofi-theme-selector')),
-    Key([mod], "t", lazy.spawn('alacritty')),
+    Key([mod], "t", lazy.spawn(myTerm+" -e fish")),
     Key([mod], "v", lazy.spawn('pavucontrol')),
     Key([mod], "w", lazy.spawn('google-chrome-stable')),
     Key([mod], "x", lazy.spawn('arcolinux-logout')),
     Key([mod], "Escape", lazy.spawn('xkill')),
-    Key([mod], "Return", lazy.spawn('alacritty')),
-    Key([mod], "KP_Enter", lazy.spawn('alacritty')),
+    Key([mod], "Return", lazy.spawn(myTerm+" -e fish")),
+    Key([mod], "KP_Enter", lazy.spawn(myTerm+" -e fish")),
     Key([mod], "F1", lazy.spawn('google-chrome-stable')),
     Key([mod], "F2", lazy.spawn('atom')),
     Key([mod], "F3", lazy.spawn('inkscape')),
@@ -95,7 +96,7 @@ keys = [
     Key([mod, "shift"], "q", lazy.window.kill()),
     Key([mod, "shift"], "r", lazy.restart()),
     Key([mod, "control"], "r", lazy.restart()),
-    # Key([mod, "shift"], "x", lazy.shutdown()),
+    #Key([mod, "shift"], "j", lazy.spawn('jgmenu_run')),
 
 # CONTROL + ALT KEYS
 
@@ -115,11 +116,11 @@ keys = [
     Key(["mod1", "control"], "p", lazy.spawn('pamac-manager')),
     Key(["mod1", "control"], "r", lazy.spawn('rofi-theme-selector')),
     Key(["mod1", "control"], "s", lazy.spawn('spotify')),
-    Key(["mod1", "control"], "t", lazy.spawn('alacritty')),
+    Key(["mod1", "control"], "t", lazy.spawn(myTerm+" -e fish")),
     Key(["mod1", "control"], "u", lazy.spawn('pavucontrol')),
     Key(["mod1", "control"], "v", lazy.spawn('google-chrome-stable')),
     Key(["mod1", "control"], "w", lazy.spawn('arcolinux-welcome-app')),
-    Key(["mod1", "control"], "Return", lazy.spawn('alacritty')),
+    Key(["mod1", "control"], "Return", lazy.spawn(myTerm+" -e fish")),
 
 # ALT + ... KEYS
 
@@ -333,14 +334,15 @@ def init_colors():
             ["#8d62a9", "#8d62a9"]] # color 9
 
 
+
 colors = init_colors()
 
 ##### MOUSE CALLBACKS #####
 
-def open_htop(qtile):
+def open_htop():
     qtile.cmd_spawn('xfce4-taskmanager')
 
-def open_jgmenu(qtile):
+def open_jgmenu():
     qtile.cmd_spawn('jgmenu_run')
 
 # WIDGETS FOR THE BAR
@@ -356,6 +358,12 @@ widget_defaults = init_widgets_defaults()
 def init_widgets_list():
     prompt = "{0}@{1}: ".format(os.environ["USER"], socket.gethostname())
     widgets_list = [
+               widget.Sep(
+                        linewidth = 0,
+                        padding = 10,
+                        foreground = colors[2],
+                        background = colors[1]
+                        ),
                widget.TextBox(
                         font = "Ubuntu Bold",
                         fontsize = 14,
@@ -491,7 +499,7 @@ def init_widgets_list():
                widget.CPUGraph(
                         border_color = colors[2],
                         fill_color = colors[8],
-                        graph_color = colors[8],
+                        graph_color = colors[4],
                         background=colors[1],
                         border_width = 1,
                         line_width = 1,
@@ -519,7 +527,7 @@ def init_widgets_list():
                         fontsize = 12,
                         foreground = colors[2],
                         background = colors[1],
-                        mouse_callbacks = {'Button1': open_htop}
+                        mouse_callbacks={"Button1": open_htop},
                        ),
                widget.Sep(
                         linewidth = 1,
@@ -541,16 +549,16 @@ def init_widgets_list():
                         fontsize = 12,
                         format="%d-%m-%Y %H:%M"
                         ),
-               widget.Backlight(
-                        foreground = colors[2],
-                        background = colors[1],
-                        font = 'Ubuntu Bold',
-                        fontsize = 12,
+               #widget.Backlight(
+               #         foreground = colors[2],
+               #         background = colors[1],
+               #         font = 'Ubuntu Bold',
+               #         fontsize = 12,
                         #step = 10,
                         #change_command = 'xbacklight -inc 5',
-                        brightness_file = '/sys/class/backlight/intel_backlight/brightness',
-                        max_brightness_file = '/sys/class/backlight/intel_backlight/max_brightness',
-                        ),
+               #         brightness_file = '/sys/class/backlight/intel_backlight/brightness',
+               #         max_brightness_file = '/sys/class/backlight/intel_backlight/max_brightness',
+               #         ),
                widget.Sep(
                         linewidth = 1,
                         padding = 10,
