@@ -26,20 +26,21 @@ run dex $HOME/.config/autostart/arcolinux-welcome-app.desktop &
 #Some ways to set your wallpaper besides variety or nitrogen
 feh --bg-fill /usr/share/backgrounds/arcolinux/arco-wallpaper.jpg &
 #start the conky to learn the shortcuts
-(conky -c $HOME/.config/qtile/scripts/system-overview) &
-run redshift -O 3000
+#(conky -c $HOME/.config/qtile/scripts/system-overview) &
+
 #IN BETA PHASE
 #start sxhkd to replace Qtile native key-bindings
 #run sxhkd -c ~/.config/qtile/sxhkd/sxhkdrc &
 
 #starting utility applications at boot time
+run redshift -O 3000
 run variety &
 run nm-applet &
 run pamac-tray &
 run xfce4-power-manager &
 numlockx on &
 blueberry-tray &
-picom --config $HOME/.config/qtile/scripts/picom.conf &
+picom --experimental-backends &
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 /usr/lib/xfce4/notifyd/xfce4-notifyd &
 

@@ -487,7 +487,7 @@ def init_widgets_list():
                #          fontsize = 12,
                #          foreground = colors[5],
                #          background = colors[1],
-	           #          ),
+               #          ),
                widget.TextBox(
                         font="FontAwesome",
                         text="  ",
