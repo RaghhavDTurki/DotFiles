@@ -20,7 +20,9 @@ import qualified Codec.Binary.UTF8.String as UTF8
 import XMonad.Hooks.FadeInactive
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
 import XMonad.Hooks.WorkspaceHistory
+import XMonad.Actions.MouseResize
 
+import XMonad.Layout.Magnifier
 import XMonad.Layout.Spacing
 import XMonad.Layout.Gaps
 import XMonad.Layout.ResizableTile
@@ -36,6 +38,16 @@ import XMonad.Layout.ShowWName
 import XMonad.Layout.GridVariants (Grid(Grid))
 import XMonad.Layout.SimplestFloat
 import XMonad.Layout.Tabbed
+import qualified XMonad.Layout.ToggleLayouts as T (toggleLayouts, ToggleLayout(Toggle))
+import XMonad.Layout.Accordion
+import XMonad.Layout.GridVariants (Grid(Grid))
+import XMonad.Layout.SimplestFloat
+import XMonad.Layout.Spiral
+import XMonad.Layout.ResizableTile
+import XMonad.Layout.Tabbed
+import XMonad.Layout.ThreeColumns
+
+
 
     -- Layouts modifiers
 import XMonad.Layout.LayoutModifier
@@ -73,12 +85,20 @@ import Data.Maybe (isJust)
 import Data.Tree
 import qualified Data.Map as M
 
+
+
+--Variables
+myFont :: String
+myFont = "xft:SauceCodePro Nerd Font Mono:regular:size=9:antialias=true:hinting=true"
+
 myStartupHook = do
     spawnOnce "redshift -O 3000"
-    spawnOnce "nitrogen --restore &"
+    spawnOnce "nitrogen --restore"
     --spawnOnce "trayer --edge top --align right --width 18 --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 --tint 0x282c34  --height 30 &"
     spawn "$HOME/.xmonad/scripts/autostart.sh"
     spawnOnce"picom --experimental-backends &"
+    spawnOnce"systemctl start betterlockscreen@$USER"
+    spawnOnce"/etc/profile.d/imwheel.sh"
     --spawnOnce"betterlockscreen &"
     --spawnOnce"light-locker &"
     setWMName "LG3D"
@@ -136,7 +156,7 @@ myManageHook = composeAll . concat $
     ]
     where
     -- doShiftAndGo = doF . liftM2 (.) W.greedyView W.shift
-    myCFloats = ["Arandr", "Arcolinux-tweak-tool.py", "Arcolinux-welcome-app.py", "Galculator", "feh", "mpv", "Xfce4-terminal","arcolinux-logout"]
+    myCFloats = ["Arandr", "Arcolinux-tweak-tool.py", "Arcolinux-welcome-app.py", "Galculator", "feh", "mpv", "Xfce4-terminal"]
     myTFloats = ["Downloads", "Save As..."]
     myRFloats = []
     myIgnores = ["desktop_window"]
@@ -154,12 +174,95 @@ myManageHook = composeAll . concat $
 
 
 
-myLayout = spacingRaw True (Border 0 5 5 5) True (Border 5 5 5 5) True $ avoidStruts $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) $ tiled ||| Mirror tiled ||| spiral (6/7)  ||| ThreeColMid 1 (3/100) (1/2) ||| Full
-    where
-        tiled = Tall nmaster delta tiled_ratio
-        nmaster = 1
-        delta = 3/100
-        tiled_ratio = 1/2
+--myLayout = spacingRaw True (Border 0 5 5 5) True (Border 5 5 5 5) True $ avoidStruts $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) $ tiled ||| Mirror tiled ||| spiral (6/7)  ||| ThreeColMid 1 (3/100) (1/2) ||| Full
+--    where
+--        tiled = Tall nmaster delta tiled_ratio
+--        nmaster = 1
+--        delta = 3/100
+--        tiled_ratio = 1/2
+
+--Makes setting the spacingRaw simpler to write. The spacingRaw module adds a configurable amount of space around windows.
+mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
+mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True
+
+-- Below is a variation of the above except no borders are applied
+-- if fewer than two windows. So a single window has no gaps.
+mySpacing' :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
+mySpacing' i = spacingRaw True (Border i i i i) True (Border i i i i) True
+
+-- Defining a bunch of layouts, many that I don't use.
+-- limitWindows n sets maximum number of windows displayed for layout.
+-- mySpacing n sets the gap size around the windows.
+tall     = renamed [Replace "tall"]
+           $ smartBorders
+           $ addTabs shrinkText myTabTheme
+           $ subLayout [] (smartBorders Simplest)
+           $ limitWindows 12
+           $ mySpacing 8
+           $ ResizableTall 1 (3/100) (1/2) []
+magnify  = renamed [Replace "magnify"]
+           $ smartBorders
+           $ addTabs shrinkText myTabTheme
+           $ subLayout [] (smartBorders Simplest)
+           $ magnifier
+           $ limitWindows 12
+           $ mySpacing 8
+           $ ResizableTall 1 (3/100) (1/2) []
+monocle  = renamed [Replace "monocle"]
+           $ smartBorders
+           $ addTabs shrinkText myTabTheme
+           $ subLayout [] (smartBorders Simplest)
+           $ limitWindows 20 Full
+floats   = renamed [Replace "floats"]
+           $ smartBorders
+           $ limitWindows 20 simplestFloat
+grid     = renamed [Replace "grid"]
+           $ smartBorders
+           $ addTabs shrinkText myTabTheme
+           $ subLayout [] (smartBorders Simplest)
+           $ limitWindows 12
+           $ mySpacing 8
+           $ mkToggle (single MIRROR)
+           $ Grid (16/10)
+spirals  = renamed [Replace "spirals"]
+           $ smartBorders
+           $ addTabs shrinkText myTabTheme
+           $ subLayout [] (smartBorders Simplest)
+           $ mySpacing' 8
+           $ spiral (6/7)
+threeCol = renamed [Replace "threeCol"]
+           $ smartBorders
+           $ addTabs shrinkText myTabTheme
+           $ subLayout [] (smartBorders Simplest)
+           $ limitWindows 7
+           $ ThreeCol 1 (3/100) (1/2)
+threeRow = renamed [Replace "threeRow"]
+           $ smartBorders
+           $ addTabs shrinkText myTabTheme
+           $ subLayout [] (smartBorders Simplest)
+           $ limitWindows 7
+           -- Mirror takes a layout and rotates it by 90 degrees.
+           -- So we are applying Mirror to the ThreeCol layout.
+           $ Mirror
+           $ ThreeCol 1 (3/100) (1/2)
+tabs     = renamed [Replace "tabs"]
+           -- I cannot add spacing to this layout because it will
+           -- add spacing between window and tabs which looks bad.
+           $ tabbed shrinkText myTabTheme
+tallAccordion  = renamed [Replace "tallAccordion"]
+           $ Accordion
+wideAccordion  = renamed [Replace "wideAccordion"]
+           $ Mirror Accordion
+
+-- setting colors for tabs layout and tabs sublayout.
+myTabTheme = def { fontName            = myFont
+                 , activeColor         = "#46d9ff"
+                 , inactiveColor       = "#313846"
+                 , activeBorderColor   = "#46d9ff"
+                 , inactiveBorderColor = "#282c34"
+                 , activeTextColor     = "#282c34"
+                 , inactiveTextColor   = "#d0d0d0"
+                 }
 
 -- Theme for showWName which prints current workspace when you change workspaces.
 myShowWNameTheme :: SWNConfig
@@ -169,6 +272,25 @@ myShowWNameTheme = def
     , swn_bgcolor           = "#1c1f24"
     , swn_color             = "#ffffff"
     }
+
+-- The layout hook
+myLayoutHook = avoidStruts $ mouseResize $ windowArrange $ T.toggleLayouts floats
+               $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) myDefaultLayout
+             where
+               myDefaultLayout =     withBorder myBorderWidth tall
+                                 ||| magnify
+                                 ||| noBorders monocle
+                                 ||| floats
+                                 ||| noBorders tabs
+                                 ||| grid
+                                 ||| spirals
+                                 ||| threeCol
+                                 ||| threeRow
+                                 ||| tallAccordion
+                                 ||| wideAccordion
+
+
+
 
 myLogHook :: X ()
 myLogHook = fadeInactiveLogHook fadeAmount
@@ -196,7 +318,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
 
   [ ((modMask, xK_e), spawn $ "emacs" )
   , ((modMask, xK_c), spawn $ "conky-toggle" )
-  , ((modMask, xK_f), sendMessage $ Toggle NBFULL)
+--  , ((modMask, xK_f), sendMessage $ Toggle NBFULL)
   , ((modMask, xK_h), spawn $ "xfce4-taskmanager" )
   , ((modMask, xK_m), spawn $ "pragha" )
   , ((modMask, xK_q), kill )
@@ -220,7 +342,9 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   , ((modMask, xK_F10), spawn $ "spotify" )
   , ((modMask, xK_F11), spawn $ "rofi -show run -fullscreen" )
   , ((modMask, xK_F12), spawn $ "rofi -show run" )
-
+  , ((modMask, xK_a), spawn $ "code" )
+  , ((modMask, xK_s), spawn $ "subl3" )
+  , ((modMask, xK_b), spawn $ "brave" )
   -- FUNCTION KEYS
   , ((0, xK_F12), spawn $ "xfce4-terminal --drop-down" )
 
@@ -237,15 +361,13 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   , ((controlMask .|. mod1Mask , xK_Next ), spawn $ "conky-rotate -n")
   , ((controlMask .|. mod1Mask , xK_Prior ), spawn $ "conky-rotate -p")
   , ((controlMask .|. mod1Mask , xK_a ), spawn $ "xfce4-appfinder")
-  , ((controlMask .|. mod1Mask , xK_b ), spawn $ "thunar")
   , ((controlMask .|. mod1Mask , xK_c ), spawn $ "catfish")
   , ((controlMask .|. mod1Mask , xK_e ), spawn $ "arcolinux-tweak-tool")
-  , ((controlMask .|. mod1Mask , xK_f ), spawn $ "firefox")
   , ((controlMask .|. mod1Mask , xK_g ), spawn $ "chromium -no-default-browser-check")
   , ((controlMask .|. mod1Mask , xK_i ), spawn $ "nitrogen")
   , ((controlMask .|. mod1Mask , xK_k ), spawn $ "arcolinux-logout")
   , ((controlMask .|. mod1Mask , xK_l ), spawn $ "arcolinux-logout")
-  , ((controlMask .|. mod1Mask , xK_m ), spawn $ "xfce4-settings-manager")
+  --, ((controlMask .|. mod1Mask , xK_m ), spawn $ "xfce4-settings-manager")
   , ((controlMask .|. mod1Mask , xK_o ), spawn $ "$HOME/.xmonad/scripts/picom-toggle.sh")
   , ((controlMask .|. mod1Mask , xK_p ), spawn $ "pamac-manager")
   , ((controlMask .|. mod1Mask , xK_r ), spawn $ "rofi-theme-selector")
@@ -263,10 +385,10 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   , ((mod1Mask, xK_p), spawn $ "variety -p" )
   , ((mod1Mask, xK_r), spawn $ "xmonad --restart" )
   , ((mod1Mask, xK_t), spawn $ "variety -t" )
-  , ((mod1Mask, xK_Up), spawn $ "variety --pause" )
-  , ((mod1Mask, xK_Down), spawn $ "variety --resume" )
-  , ((mod1Mask, xK_Left), spawn $ "variety -p" )
-  , ((mod1Mask, xK_Right), spawn $ "variety -n" )
+  --, ((mod1Mask, xK_Up), spawn $ "variety --pause" )
+  --, ((mod1Mask, xK_Down), spawn $ "variety --resume" )
+  -- ((mod1Mask, xK_Left), spawn $ "variety -p" )
+  --, ((mod1Mask, xK_Right), spawn $ "variety -n" )
   , ((mod1Mask, xK_F2), spawn $ "gmrun" )
   , ((mod1Mask, xK_F3), spawn $ "xfce4-appfinder" )
 
@@ -421,7 +543,9 @@ main = do
             --myBaseConfig { keys = belgianKeys <+> keys belgianConfig }
 
                 {startupHook = myStartupHook
-, layoutHook =  gaps [(U,35), (D,35), (R,5), (L,5)] $ myLayout ||| layoutHook myBaseConfig
+--, layoutHook = showWName' myShowWNameTheme $ myLayoutHook
+, layoutHook = myLayoutHook
+--, layoutHook =  gaps [(U,35), (D,35), (R,5), (L,5)] $ myLayout ||| layoutHook myBaseConfig
 , manageHook = manageSpawn <+> myManageHook <+> manageHook myBaseConfig
 , modMask = myModMask
 , borderWidth = myBorderWidth
@@ -441,7 +565,7 @@ main = do
                         , ppTitle = xmobarColor "#b3afc2" "" . shorten 60               -- Title of active window in xmobar
                         , ppSep =  "<fc=#666666> <fn=1>|</fn> </fc>"                    -- Separators in xmobar
                         , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!"            -- Urgent workspace
-                        , ppExtras  = [windowCount]                                     -- # of windows current workspace
+                        --, ppExtras  = [windowCount]                                     -- # of windows current workspace
                         , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
                         }
 }
