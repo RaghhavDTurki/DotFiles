@@ -69,17 +69,17 @@ keys = [
     Key([mod], "m", lazy.spawn('pragha')),
     Key([mod], "q", lazy.window.kill()),
     Key([mod], "r", lazy.spawn('rofi-theme-selector')),
-    Key([mod], "t", lazy.spawn(myTerm+" -e fish")),
+    Key([mod], "t", lazy.spawn("alacritty -e fish")),
     Key([mod], "a", lazy.spawn('code')),
     Key([mod], "s", lazy.spawn('subl3')),
     Key([mod], "v", lazy.spawn('pavucontrol')),
     Key([mod], "w", lazy.spawn('google-chrome-stable')),
     Key([mod], "x", lazy.spawn('arcolinux-logout')),
     Key([mod], "Escape", lazy.spawn('xkill')),
-    Key([mod], "Return", lazy.spawn(myTerm+" -e fish")),
-    Key([mod], "KP_Enter", lazy.spawn(myTerm+" -e fish")),
+    Key([mod], "Return", lazy.spawn("alacritty -e fish")),
+    Key([mod], "KP_Enter", lazy.spawn("alacritty -e fish")),
     Key([mod], "F1", lazy.spawn('google-chrome-stable')),
-    Key([mod], "F2", lazy.spawn('atom')),
+    Key([mod], "F2", lazy.spawn('gvim')),
     Key([mod], "F3", lazy.spawn('inkscape')),
     Key([mod], "F4", lazy.spawn('gimp')),
     Key([mod], "F5", lazy.spawn('meld')),
@@ -335,7 +335,7 @@ layouts = [
     layout.Zoomy(**layout_theme),
     layout.TreeTab(
          font = "Ubuntu",
-         fontsize = 10,
+         fontsize = 12,
          sections = ["FIRST", "SECOND", "THIRD", "FOURTH"],
          section_fontsize = 10,
          border_width = 2,
@@ -506,23 +506,6 @@ def init_widgets_list():
                widget.TextBox(
                        text = '',
                        background = colors[0],
-                       foreground = colors[5],
-                       padding = 0,
-                       fontsize = 37
-                       ),
-               widget.Battery(
-                        font="Ubuntu",
-                        update_interval = 10,
-                        fontsize = 12,
-                        padding = 5,
-                        format = "Battery: {percent:2.0%}",
-                        low_foreground  = colors[2],
-                        foreground = colors[2],
-                        background = colors[5],
-                        ),
-               widget.TextBox(
-                       text = '',
-                       background = colors[5],
                        foreground = colors[4],
                        padding = 0,
                        fontsize = 37
@@ -550,14 +533,24 @@ def init_widgets_list():
                        background = colors[5],
                        fontsize = 11
                        ),
-               widget.ThermalSensor(
-                font="Ubuntu",
-                        fontsize=12,
-                       foreground = colors[2],
-                       background = colors[5],
-                       threshold = 90,
-                       padding = 5
-                       ),
+               # widget.ThermalSensor(
+               #  font="Ubuntu",
+               #          fontsize=12,
+               #         foreground = colors[2],
+               #         background = colors[5],
+               #         threshold = 90,
+               #         padding = 5
+               #         ),
+               widget.Battery(
+                        font="Ubuntu",
+                        update_interval = 10,
+                        fontsize = 12,
+                        padding = 5,
+                        format = "Battery: {percent:2.0%}",
+                        low_foreground  = colors[2],
+                        foreground = colors[2],
+                        background = colors[5],
+                        ),
                widget.TextBox(
                        text='',
                        background = colors[5],
@@ -602,7 +595,7 @@ def init_widgets_list():
                         fontsize=12,
                        foreground = colors[2],
                        background = colors[5],
-                       mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e htop')},
+                       mouse_callbacks = {'Button1': open_htop},
                        padding = 5
                        ),
               widget.TextBox(
