@@ -187,9 +187,10 @@ end
 
 ### ALIASES ###
 # spark aliases
-alias clear='clear; echo; echo; seq 1 (tput cols) | sort -R | spark | lolcat; echo; echo'
-
 # root privileges
+alias cls='clear; echo; echo; seq 1 (tput cols) | sort -R | spark | lolcat; echo; echo'
+
+
 alias doas="doas --"
 
 # navigation
@@ -218,8 +219,8 @@ alias l.='exa -a | egrep "^\."'
 #fix obvious typo's
 alias cd..='cd ..'
 alias pdw="pwd"
-alias udpate='sudo pacman -Syyu'
-alias upate='sudo pacman -Syyu'
+alias udpate='sudo paru -Syyu'
+alias upate='sudo paru -Syyu'
 
 ## Colorize the grep command output for ease of use (good for log files)##
 alias grep='grep --color=auto'
@@ -228,7 +229,7 @@ alias fgrep='fgrep --color=auto'
 
 #readable output
 alias df='df -h'
-
+alias hostname='hostnamectl'
 #pacman unlock
 alias unlock="sudo rm /var/lib/pacman/db.lck"
 
@@ -363,11 +364,5 @@ alias downgrada="sudo downgrade --ala-url https://bike.seedhost.eu/arcolinux/"
 #systeminfo
 alias probe="sudo -E hw-probe -all -upload"
 alias gp="git push origin main"
-#colorscript random
+colorscript -e 41
 starship init fish | source
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-eval /home/raghhav/anaconda3/bin/conda "shell.fish" "hook" $argv | source
-# <<< conda initialize <<<
-
