@@ -99,6 +99,8 @@ myStartupHook = do
     spawnOnce"picom --experimental-backends &"
     spawnOnce"systemctl start betterlockscreen@$USER"
     spawnOnce"/etc/profile.d/imwheel.sh"
+    spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut false --expand true --monitor 0 --transparent true --alpha 0 --tint 0x282c34  --height 19 &"
+    spawnOnce "/usr/bin/emacs --daemon &" -- emacs daemon for the emacsclient
     --spawnOnce"betterlockscreen &"
     --spawnOnce"light-locker &"
     setWMName "LG3D"
@@ -345,6 +347,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   , ((modMask, xK_a), spawn $ "code" )
   , ((modMask, xK_s), spawn $ "subl3" )
   , ((modMask, xK_b), spawn $ "brave" )
+  , ((modMask .|. mod1Mask, xK_Return), spawn $ "kitty -e fish")
   -- FUNCTION KEYS
   , ((0, xK_F12), spawn $ "xfce4-terminal --drop-down" )
 
@@ -563,7 +566,7 @@ main = do
                         , ppHidden = xmobarColor "#82AAFF" "" . wrap "*" "" . clickable -- Hidden workspaces in xmobar
                         , ppHiddenNoWindows = xmobarColor "#c792ea" ""  . clickable     -- Hidden workspaces (no windows)
                         , ppTitle = xmobarColor "#b3afc2" "" . shorten 60               -- Title of active window in xmobar
-                        , ppSep =  "<fc=#666666> <fn=1>|</fn> </fc>"                    -- Separators in xmobar
+                        , ppSep =  "<fc=#666666> <fn=0>|</fn> </fc>"                    -- Separators in xmobar
                         , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!"            -- Urgent workspace
                         --, ppExtras  = [windowCount]                                     -- # of windows current workspace
                         , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
