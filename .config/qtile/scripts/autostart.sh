@@ -26,7 +26,7 @@ function run {
 #Some ways to set your wallpaper besides variety or nitrogen
 feh --bg-fill /usr/share/backgrounds/arcolinux/arco-wallpaper.jpg &
 #start the conky to learn the shortcuts
-#(conky -c $HOME/.config/qtile/scripts/system-overview) &
+(conky -c $HOME/.config/qtile/scripts/system-overview) &
 
 #start sxhkd to replace Qtile native key-bindings
 run sxhkd -c ~/.config/qtile/sxhkd/sxhkdrc &
@@ -42,9 +42,10 @@ picom --config $HOME/.config/qtile/scripts/picom.conf &
 redshift -O 3000
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 /usr/lib/xfce4/notifyd/xfce4-notifyd &
-
+sudo rm -r  ~/.config/qtile/archive/
 #starting user applications at boot time
 run volumeicon &
+run conky -c $HOME/.config/conky/xmonad.conkyrc
 #run discord &
 #nitrogen --restore &
 #run caffeine -a &
