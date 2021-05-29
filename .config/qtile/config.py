@@ -35,7 +35,6 @@ from libqtile import layout, bar, widget, hook
 from libqtile.widget import Spacer
 from libqtile import qtile
 from typing import List  # noqa: F401
-import arcobattery
 
 #mod4 or mod = super key
 mod = "mod4"
@@ -71,9 +70,11 @@ keys = [
     Key([mod], "r", lazy.spawn('rofi-theme-selector')),
     Key([mod], "t", lazy.spawn("alacritty -e fish")),
     Key([mod], "a", lazy.spawn('code')),
+    Key([mod], "d", lazy.spawn('discord')),
     Key([mod], "s", lazy.spawn('subl')),
     Key([mod], "v", lazy.spawn('pavucontrol')),
     Key([mod], "w", lazy.spawn('google-chrome-stable')),
+    Key([mod], "b", lazy.spawn('brave')),
     Key([mod], "x", lazy.spawn('arcolinux-logout')),
     Key([mod], "p", lazy.spawn('wpspdf')),
     Key([mod], "Escape", lazy.spawn('xkill')),
@@ -401,12 +402,12 @@ def init_widgets_defaults():
 
 
 widget.Prompt(
-                       prompt = prompt,
-                       font = "Ubuntu Mono",
-                       padding = 10,
-                       foreground = colors[3],
-                       background = colors[1]
-                       ),
+               prompt = prompt,
+               font = "Ubuntu Mono",
+               padding = 10,
+               foreground = colors[3],
+               background = colors[1]
+               ),
 
 widget_defaults = init_widgets_defaults()
 
@@ -435,7 +436,7 @@ def init_widgets_list():
                        ),
                widget.Image(
                         filename = "~/.config/qtile/icons/python-white.png",
-                       scale = "False",
+                        scale = "False",
                         mouse_callbacks = {'Button1': open_jgmenu}
                 ),
               # widget.TextBox(
@@ -503,6 +504,7 @@ def init_widgets_list():
                        background = colors[0]
                        ),
                widget.TextBox(
+                       font="FontAwesome",
                        text = '',
                        background = colors[0],
                        foreground = colors[4],
@@ -513,12 +515,13 @@ def init_widgets_list():
                        interface = "wlo1",
                        format = '{down} ↓↑ {up}',
                        font="Ubuntu",
-                        fontsize=12,
+                       fontsize=12,
                        foreground = colors[2],
                        background = colors[4],
                        padding = 5
                        ),
                widget.TextBox(
+                       font="FontAwesome",
                        text = '',
                        background = colors[4],
                        foreground = colors[5],
@@ -551,6 +554,7 @@ def init_widgets_list():
                         background = colors[5],
                         ),
                widget.TextBox(
+                       font="FontAwesome",
                        text='',
                        background = colors[5],
                        foreground = colors[4],
@@ -571,11 +575,11 @@ def init_widgets_list():
                        distro = "Arch_checkupdates",
                        display_format = "{updates} Updates",
                        foreground = colors[2],
-                        # mouse_callbacks = {'Button1': open_jgmenu},
                        mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e sudo pacman -Syu')},
                        background = colors[4]
                        ),
                widget.TextBox(
+                       font="FontAwesome",
                        text = '',
                        background = colors[4],
                        foreground = colors[5],
@@ -598,6 +602,7 @@ def init_widgets_list():
                        padding = 5
                        ),
               widget.TextBox(
+                       font="FontAwesome",
                        text='',
                        background = colors[5],
                        foreground = colors[4],
@@ -617,6 +622,7 @@ def init_widgets_list():
               #          padding = 5
               #          ),
               # widget.TextBox(
+              #          font="FontAwesome",
               #          text = '',
               #          background = colors[4],
               #          foreground = colors[5],
@@ -639,6 +645,7 @@ def init_widgets_list():
                        padding = 5
                        ),
                widget.TextBox(
+                       font="FontAwesome",
                        text = '',
                        background = colors[4],
                        foreground = colors[5],
@@ -660,6 +667,7 @@ def init_widgets_list():
                        padding = 5
                        ),
               widget.TextBox(
+                       font="FontAwesome",
                        text='',
                        background = colors[5],
                        foreground = colors[4],

@@ -93,10 +93,11 @@ myFont = "xft:SauceCodePro Nerd Font Mono:regular:size=9:antialias=true:hinting=
 
 myStartupHook = do
     spawnOnce "redshift -O 3000"
+    spawnOnce "conky -c $HOME/.xmonad/scripts/system-overview1"
     spawnOnce "nitrogen --restore"
     --spawnOnce "trayer --edge top --align right --width 18 --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 --tint 0x282c34  --height 30 &"
     spawn "$HOME/.xmonad/scripts/autostart.sh"
-    spawnOnce"picom --experimental-backends &"
+    -- spawnOnce"picom --experimental-backends &"
     spawnOnce"systemctl start betterlockscreen@$USER"
     spawnOnce"/etc/profile.d/imwheel.sh"
     spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut false --expand true --monitor 0 --transparent true --alpha 0 --tint 0x282c34  --height 19 &"
@@ -202,6 +203,10 @@ tall     = renamed [Replace "tall"]
            $ limitWindows 12
            $ mySpacing 8
            $ ResizableTall 1 (3/100) (1/2) []
+tabs     = renamed [Replace "tabs"]
+           -- I cannot add spacing to this layout because it will
+           -- add spacing between window and tabs which looks bad.
+           $ tabbed shrinkText myTabTheme
 magnify  = renamed [Replace "magnify"]
            $ smartBorders
            $ addTabs shrinkText myTabTheme
@@ -247,10 +252,6 @@ threeRow = renamed [Replace "threeRow"]
            -- So we are applying Mirror to the ThreeCol layout.
            $ Mirror
            $ ThreeCol 1 (3/100) (1/2)
-tabs     = renamed [Replace "tabs"]
-           -- I cannot add spacing to this layout because it will
-           -- add spacing between window and tabs which looks bad.
-           $ tabbed shrinkText myTabTheme
 tallAccordion  = renamed [Replace "tallAccordion"]
            $ Accordion
 wideAccordion  = renamed [Replace "wideAccordion"]
@@ -280,10 +281,10 @@ myLayoutHook = avoidStruts $ mouseResize $ windowArrange $ T.toggleLayouts float
                $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) myDefaultLayout
              where
                myDefaultLayout =     withBorder myBorderWidth tall
+                                 ||| noBorders tabs
                                  ||| magnify
                                  ||| noBorders monocle
                                  ||| floats
-                                 ||| noBorders tabs
                                  ||| grid
                                  ||| spirals
                                  ||| threeCol
@@ -345,7 +346,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   , ((modMask, xK_F11), spawn $ "rofi -show run -fullscreen" )
   , ((modMask, xK_F12), spawn $ "rofi -show run" )
   , ((modMask, xK_a), spawn $ "code" )
-  , ((modMask, xK_s), spawn $ "subl3" )
+  , ((modMask, xK_s), spawn $ "subl" )
   , ((modMask, xK_b), spawn $ "brave" )
   , ((modMask .|. mod1Mask, xK_Return), spawn $ "kitty -e fish")
   -- FUNCTION KEYS
