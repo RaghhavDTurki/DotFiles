@@ -420,7 +420,7 @@ def init_widgets_list():
                widget.Image(
                         filename = "~/.config/qtile/icons/python-white.png",
                         scale = "False",
-                        mouse_callbacks = {'Button1': open_taskmanager}
+                        mouse_callbacks = {'Button1': open_jgmenu}
                 ),
              widget.Sep(
                        linewidth = 0,
