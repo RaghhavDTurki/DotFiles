@@ -118,7 +118,7 @@ keys = [
     Key(["mod1", "control"], "p", lazy.spawn('pamac-manager')),
     Key(["mod1", "control"], "r", lazy.spawn('rofi-theme-selector')),
     Key(["mod1", "control"], "s", lazy.spawn('spotify')),
-    Key(["mod1", "control"], "t", lazy.spawn(myTerm+" -e fish")),
+    Key(["mod1", "control"], "t", lazy.spawn("termite")),
     Key(["mod1", "control"], "u", lazy.spawn('pavucontrol')),
     Key(["mod1", "control"], "v", lazy.spawn('google-chrome-stable')),
     Key(["mod1", "control"], "w", lazy.spawn('arcolinux-welcome-app')),
@@ -320,19 +320,16 @@ layout_theme = init_layout_theme()
 
 layouts = [
     layout.MonadTall(**layout_theme),
-    layout.MonadWide(**layout_theme),
-    # layout.MonadTall(margin=8, border_width=2, border_focus="#5e81ac", border_normal="#4c566a"),
-    # layout.MonadWide(margin=8, border_width=2, border_focus="#5e81ac", border_normal="#4c566a"),
-    layout.Matrix(**layout_theme),
-    layout.Bsp(**layout_theme),
-    layout.Floating(**layout_theme),
-    layout.RatioTile(**layout_theme),
+    #layout.MonadWide(**layout_theme),
+    #layout.Matrix(**layout_theme),
+    #layout.Bsp(**layout_theme),
+    #layout.RatioTile(**layout_theme),
     layout.Max(**layout_theme),
-    layout.Stack(stacks=2, **layout_theme),
+    #layout.Stack(stacks=2, **layout_theme),
     # layout.Columns(**layout_theme),
     # layout.Tile(shift_windows=True, **layout_theme),
     #layout.VerticalTile(**layout_theme),
-    layout.Zoomy(**layout_theme),
+    #layout.Zoomy(**layout_theme),
     layout.TreeTab(
          font = "Ubuntu",
          fontsize = 12,
@@ -372,7 +369,7 @@ colors = [["#282c34", "#282c34"], # panel background
 
 ##### MOUSE CALLBACKS #####
 
-def open_htop():
+def open_taskmanager():
     qtile.cmd_spawn('xfce4-taskmanager')
 
 def open_jgmenu():
@@ -414,20 +411,6 @@ widget_defaults = init_widgets_defaults()
 def init_widgets_list():
     prompt = "{0}@{1}: ".format(os.environ["USER"], socket.gethostname())
     widgets_list = [
-               # widget.Sep(
-               #          linewidth = 0,
-               #          padding = 10,
-               #          foreground = colors[2],
-               #          background = colors[1]
-               #          ),
-               # widget.TextBox(
-               #          font = "Ubuntu Bold",
-               #          fontsize = 14,
-               #          text = "ArcoLinux  ",
-               #          foreground = colors[2],
-               #          background = colors[1],
-               #          mouse_callbacks = {'Button1': open_jgmenu}
-               #          ),
                widget.Sep(
                        linewidth = 0,
                        padding = 6,
@@ -437,16 +420,8 @@ def init_widgets_list():
                widget.Image(
                         filename = "~/.config/qtile/icons/python-white.png",
                         scale = "False",
-                        mouse_callbacks = {'Button1': open_jgmenu}
+                        mouse_callbacks = {'Button1': open_taskmanager}
                 ),
-              # widget.TextBox(
-              #           font = "Ubuntu Bold",
-              #           fontsize = 14,
-              #           text = "ArcoLinux  ",
-              #           foreground = colors[2],
-              #           background = colors[1],
-              #           mouse_callbacks = {'Button1': open_jgmenu}
-              #           ),
              widget.Sep(
                        linewidth = 0,
                        padding = 6,
@@ -598,7 +573,7 @@ def init_widgets_list():
                         fontsize=12,
                        foreground = colors[2],
                        background = colors[5],
-                       mouse_callbacks = {'Button1': open_htop},
+                       mouse_callbacks = {'Button1': open_taskmanager},
                        padding = 5
                        ),
               widget.TextBox(
@@ -609,26 +584,6 @@ def init_widgets_list():
                        padding = 0,
                        fontsize = 37
                        ),
-              #  widget.TextBox(
-              #          text = " ₿",
-              #          padding = 0,
-              #          foreground = colors[2],
-              #          background = colors[4],
-              #          fontsize = 12
-              #          ),
-              # widget.BitcoinTicker(
-              #          foreground = colors[2],
-              #          background = colors[4],
-              #          padding = 5
-              #          ),
-              # widget.TextBox(
-              #          font="FontAwesome",
-              #          text = '',
-              #          background = colors[4],
-              #          foreground = colors[5],
-              #          padding = 0,
-              #          fontsize = 37
-              #          ),
                widget.TextBox(
                       text = " Vol:",
                       font="Ubuntu",
