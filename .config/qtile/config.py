@@ -78,7 +78,7 @@ keys = [
     Key([mod], "x", lazy.spawn('arcolinux-logout')),
     Key([mod], "p", lazy.spawn('wpspdf')),
     Key([mod], "Escape", lazy.spawn('xkill')),
-    Key([mod], "Return", lazy.spawn("alacritty -e fish")),
+    Key([mod], "Return", lazy.spawn("kitty -e fish")),
     Key([mod], "KP_Enter", lazy.spawn("alacritty -e fish")),
     Key([mod], "F1", lazy.spawn('google-chrome-stable')),
     Key([mod], "F2", lazy.spawn('gvim')),
@@ -104,7 +104,8 @@ keys = [
 
 # CONTROL + ALT KEYS
 
-    Key(["mod1", "control"], "Next", lazy.spawn('conky-rotate -n')),
+    Key(["mod1", "control"], "Return", lazy.spawn('pcmanfm')),
+    Key(["mod1", "control"], "d", lazy.spawn("dmenu_run -i -fn 'NotoMonoRegular:bold:pixelsize=15'")),
     Key(["mod1", "control"], "Prior", lazy.spawn('conky-rotate -p')),
     Key(["mod1", "control"], "a", lazy.spawn('xfce4-appfinder')),
     Key(["mod1", "control"], "c", lazy.spawn('catfish')),
@@ -122,7 +123,7 @@ keys = [
     Key(["mod1", "control"], "u", lazy.spawn('pavucontrol')),
     Key(["mod1", "control"], "v", lazy.spawn('google-chrome-stable')),
     Key(["mod1", "control"], "w", lazy.spawn('arcolinux-welcome-app')),
-    Key(["mod1", "control"], "Return", lazy.spawn(myTerm+" -e fish")),
+    #Key(["mod1", "control"], "Return", lazy.spawn(myTerm+" -e fish")),
     Key(["mod1", "control"], "j", lazy.spawn('jgmenu_run')),
 # ALT + ... KEYS
 
@@ -131,10 +132,10 @@ keys = [
     Key(["mod1"], "n", lazy.spawn('variety -n')),
     Key(["mod1"], "p", lazy.spawn('variety -p')),
     Key(["mod1"], "t", lazy.spawn('variety -t')),
-    Key(["mod1"], "Up", lazy.spawn('variety --pause')),
-    Key(["mod1"], "Down", lazy.spawn('variety --resume')),
-    Key(["mod1"], "Left", lazy.spawn('variety -p')),
-    Key(["mod1"], "Right", lazy.spawn('variety -n')),
+    # Key(["mod1"], "Up", lazy.spawn('variety --pause')),
+    # Key(["mod1"], "Down", lazy.spawn('variety --resume')),
+    # Key(["mod1"], "Left", lazy.spawn('variety -p')),
+    # Key(["mod1"], "Right", lazy.spawn('variety -n')),
     Key(["mod1"], "F2", lazy.spawn('gmrun')),
     Key(["mod1"], "F3", lazy.spawn('xfce4-appfinder')),
 
@@ -636,6 +637,11 @@ def init_widgets_list():
                        background = colors[4],
                        format = "%A, %B %d - %H:%M "
                        ),
+              # widget.Tasklist(
+              #           foreground = colors[2],
+              #           background = colors[5],
+
+              #          )
               ]
     return widgets_list
 

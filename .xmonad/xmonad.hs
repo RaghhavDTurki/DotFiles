@@ -24,6 +24,7 @@ import XMonad.Actions.MouseResize
 
 import XMonad.Layout.Magnifier
 import XMonad.Layout.Spacing
+import XMonad.Layout.WindowNavigation
 import XMonad.Layout.Gaps
 import XMonad.Layout.ResizableTile
 ---import XMonad.Layout.NoBorders
@@ -198,6 +199,7 @@ mySpacing' i = spacingRaw True (Border i i i i) True (Border i i i i) True
 -- mySpacing n sets the gap size around the windows.
 tall     = renamed [Replace "tall"]
            $ smartBorders
+           $ windowNavigation
            $ addTabs shrinkText myTabTheme
            $ subLayout [] (smartBorders Simplest)
            $ limitWindows 12
@@ -209,6 +211,7 @@ tabs     = renamed [Replace "tabs"]
            $ tabbed shrinkText myTabTheme
 magnify  = renamed [Replace "magnify"]
            $ smartBorders
+           $ windowNavigation
            $ addTabs shrinkText myTabTheme
            $ subLayout [] (smartBorders Simplest)
            $ magnifier
@@ -217,6 +220,7 @@ magnify  = renamed [Replace "magnify"]
            $ ResizableTall 1 (3/100) (1/2) []
 monocle  = renamed [Replace "monocle"]
            $ smartBorders
+           $ windowNavigation
            $ addTabs shrinkText myTabTheme
            $ subLayout [] (smartBorders Simplest)
            $ limitWindows 20 Full
@@ -225,6 +229,7 @@ floats   = renamed [Replace "floats"]
            $ limitWindows 20 simplestFloat
 grid     = renamed [Replace "grid"]
            $ smartBorders
+           $ windowNavigation
            $ addTabs shrinkText myTabTheme
            $ subLayout [] (smartBorders Simplest)
            $ limitWindows 12
@@ -233,18 +238,21 @@ grid     = renamed [Replace "grid"]
            $ Grid (16/10)
 spirals  = renamed [Replace "spirals"]
            $ smartBorders
+           $ windowNavigation
            $ addTabs shrinkText myTabTheme
            $ subLayout [] (smartBorders Simplest)
            $ mySpacing' 8
            $ spiral (6/7)
 threeCol = renamed [Replace "threeCol"]
            $ smartBorders
+           $ windowNavigation
            $ addTabs shrinkText myTabTheme
            $ subLayout [] (smartBorders Simplest)
            $ limitWindows 7
            $ ThreeCol 1 (3/100) (1/2)
 threeRow = renamed [Replace "threeRow"]
            $ smartBorders
+           $ windowNavigation
            $ addTabs shrinkText myTabTheme
            $ subLayout [] (smartBorders Simplest)
            $ limitWindows 7
