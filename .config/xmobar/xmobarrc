@@ -3,11 +3,11 @@
 -- you can find weather location codes here: http://weather.noaa.gov/index.html
 -- |</fc> <fc=#b3afc2><fn=1></fn>  %uname% </fc><fc=#666666> Linux version widget, was crowding the bar so removed it
 -- |</fc> <fc=#51afef> %disku% </fc><fc=#666666> Disk space
-Config { font    = "xft:Ubuntu:weight=bold:pixelsize=14:antialias=true:hinting=true"
-       , additionalFonts = ["xft:Font Awesome 5 Free Solid:pixelsize=14"
-                           ,"xft:Mononoki Nerd Font:pixelsize=14:antialias=true:hinting=true"
-                           , "xft:Font Awesome 5 Free Solid:pixelsize=14"
-                           , "xft:Font Awesome 5 Brands:pixelsize=14"
+Config { font    = "xft:Ubuntu:weight=bold:pixelsize=12:antialias=true:hinting=true"
+       , additionalFonts = ["xft:Font Awesome 5 Free Solid:pixelsize=13"
+                           ,"xft:Mononoki Nerd Font:pixelsize=13:antialias=true:hinting=true"
+                           , "xft:Font Awesome 5 Free Solid:pixelsize=13"
+                           , "xft:Font Awesome 5 Brands:pixelsize=13"
 
                            ]
        , bgColor = "#282c34"

@@ -78,7 +78,7 @@ keys = [
     Key([mod], "x", lazy.spawn('arcolinux-logout')),
     Key([mod], "p", lazy.spawn('wpspdf')),
     Key([mod], "Escape", lazy.spawn('xkill')),
-    Key([mod], "Return", lazy.spawn("kitty -e fish")),
+    Key([mod], "Return", lazy.spawn("alacritty -e fish")),
     Key([mod], "KP_Enter", lazy.spawn("alacritty -e fish")),
     Key([mod], "F1", lazy.spawn('google-chrome-stable')),
     Key([mod], "F2", lazy.spawn('gvim')),
@@ -376,6 +376,9 @@ def open_taskmanager():
 def open_jgmenu():
     qtile.cmd_spawn('jgmenu_run')
 
+def open_calendar():
+    qtile.cmd_spawn('/home/raghhav/.config/qtile/scripts/calendar.sh')
+
 prompt = "{0}@{1}: ".format(os.environ["USER"], socket.gethostname())
 
 # WIDGETS FOR THE BAR
@@ -635,6 +638,7 @@ def init_widgets_list():
                         fontsize=12,
                        foreground = colors[2],
                        background = colors[4],
+                       mouse_callbacks = {'Button1': open_calendar},
                        format = "%A, %B %d - %H:%M "
                        ),
               # widget.Tasklist(
