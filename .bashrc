@@ -33,11 +33,17 @@ fi
 bind "set completion-ignore-case on"
 
 #list
-alias ls='ls --color=auto'
-alias la='ls -a'
-alias ll='ls -la'
-alias l='ls'
-alias l.="ls -A | egrep '^\.'"
+# alias ls='ls --color=auto'
+# alias la='ls -a'
+# alias ll='ls -la'
+# alias l='ls'
+# alias l.="ls -A | egrep '^\.'"
+
+alias ls='exa -al --color=always --group-directories-first' # my preferred listing
+alias la='exa -a --color=always --group-directories-first'  # all files and dirs
+alias ll='exa -l --color=always --group-directories-first'  # long format
+alias lt='exa -aT --color=always --group-directories-first' # tree listing
+alias l.='exa -a | egrep "^\."'
 
 #fix obvious typo's
 alias cd..='cd ..'
@@ -267,7 +273,6 @@ ex ()
 #hfetch
 # install lolcat
 #neofetch | lolcat
-colorscript -e arch 
+colorscript -e arch
 eval "$(starship init bash)"
-
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
