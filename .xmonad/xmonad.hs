@@ -101,7 +101,8 @@ myStartupHook = do
     -- spawnOnce"picom --experimental-backends &"
     spawnOnce"systemctl start betterlockscreen@$USER"
     spawnOnce"/etc/profile.d/imwheel.sh"
-    spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut false --expand true --monitor 0 --transparent true --alpha 0 --tint 0x282c34  --height 19 &"
+    -- spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut false --expand true --monitor 0 --transparent true --alpha 0 --tint 0x282c34  --height 19 &"
+    spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 --tint 0x282c34  --height 22 &"
     spawnOnce "/usr/bin/emacs --daemon &" -- emacs daemon for the emacsclient
     --spawnOnce"betterlockscreen &"
     --spawnOnce"light-locker &"
@@ -336,6 +337,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   , ((modMask, xK_r), spawn $ "rofi-theme-selector" )
   , ((modMask, xK_t), spawn $ myTerminal ++ " -e fish" )
   , ((modMask, xK_v), spawn $ "pavucontrol" )
+  , ((modMask, xK_d), spawn $ "discord" )
   , ((modMask, xK_y), spawn $ "polybar-msg cmd toggle" )
   , ((modMask, xK_x), spawn $ "arcolinux-logout" )
   , ((modMask, xK_w), spawn $ "google-chrome-stable" )
@@ -528,12 +530,12 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
       , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)
       , (\i -> W.greedyView i . W.shift i, shiftMask)]]
 
-  ++
+  -- ++
   -- ctrl-{w,e,r}, Switch to physical/Xinerama screens 1, 2, or 3
   -- ctrl-shift-{w,e,r}, Move client to screen 1, 2, or 3
-  [((m .|. controlMask, key), screenWorkspace sc >>= flip whenJust (windows . f))
-      | (key, sc) <- zip [xK_w, xK_e] [0..]
-      , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
+  -- [((m .|. controlMask, key), screenWorkspace sc >>= flip whenJust (windows . f))
+      -- | (key, sc) <- zip [xK_w, xK_e] [0..]
+      -- , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
 
 
 main :: IO ()

@@ -29,13 +29,12 @@ import os
 import re
 import socket
 import subprocess
-from libqtile.config import Drag, Key, Screen, Group, Drag, Click, Rule
-from libqtile.command import lazy
-from libqtile import layout, bar, widget, hook
-from libqtile.widget import Spacer
-from libqtile import qtile
 from typing import List  # noqa: F401
-
+from libqtile import layout, bar, widget, hook
+from libqtile import qtile
+from libqtile.config import Click, Drag, Group, Key, Match, Screen, Rule
+from libqtile.command import lazy
+from libqtile.widget import Spacer
 #mod4 or mod = super key
 mod = "mod4"
 mod1 = "alt"
@@ -79,7 +78,7 @@ keys = [
     Key([mod], "p", lazy.spawn('wpspdf')),
     Key([mod], "Escape", lazy.spawn('xkill')),
     Key([mod], "Return", lazy.spawn("alacritty -e fish")),
-    Key([mod], "KP_Enter", lazy.spawn("alacritty -e fish")),
+    Key([mod], "KP_Enter", lazy.spawn("termite -e fish")),
     Key([mod], "F1", lazy.spawn('google-chrome-stable')),
     Key([mod], "F2", lazy.spawn('gvim')),
     Key([mod], "F3", lazy.spawn('inkscape')),
@@ -110,7 +109,7 @@ keys = [
     Key(["mod1", "control"], "a", lazy.spawn('xfce4-appfinder')),
     Key(["mod1", "control"], "c", lazy.spawn('catfish')),
     Key(["mod1", "control"], "e", lazy.spawn('arcolinux-tweak-tool')),
-    Key(["mod1", "control"], "f", lazy.spawn('google-chrome-stable')),
+    # Key(["mod1", "control"], "f", lazy.spawn('google-chrome-stable')),
     Key(["mod1", "control"], "g", lazy.spawn('google-chrome-stable')),
     Key(["mod1", "control"], "i", lazy.spawn('nitrogen')),
     Key(["mod1", "control"], "k", lazy.spawn('arcolinux-logout')),
@@ -747,28 +746,30 @@ follow_mouse_focus = True
 bring_front_click = False
 cursor_warp = False
 floating_layout = layout.Floating(float_rules=[
-    {'wmclass': 'Arcolinux-welcome-app.py'},
-    {'wmclass': 'Arcolinux-tweak-tool.py'},
-    {'wmclass': 'confirm'},
-    {'wmclass': 'dialog'},
-    {'wmclass': 'download'},
-    {'wmclass': 'error'},
-    {'wmclass': 'file_progress'},
-    {'wmclass': 'notification'},
-    {'wmclass': 'splash'},
-    {'wmclass': 'toolbar'},
-    {'wmclass': 'confirmreset'},
-    {'wmclass': 'makebranch'},
-    {'wmclass': 'maketag'},
-    {'wmclass': 'Arandr'},
-    {'wmclass': 'feh'},
-    {'wmclass': 'Galculator'},
-    {'wmclass': 'arcolinux-logout'},
-    {'wmclass': 'xfce4-terminal'},
-    {'wname': 'branchdialog'},
-    {'wname': 'Open File'},
-    {'wname': 'pinentry'},
-    {'wmclass': 'ssh-askpass'},
+    # Run the utility of `xprop` to see the wm class and name of an X client.
+    *layout.Floating.default_float_rules, 
+    Match(wm_class='confirmreset'),  # gitk
+    Match(wm_class='makebranch'),  # gitk
+    Match(wm_class='maketag'),  # gitk
+    Match(wm_class='ssh-askpass'),  # ssh-askpass
+    Match(title='branchdialog'),  # gitk
+    Match(title='pinentry'),  # GPG key password entry
+    Match(wm_class='Arcolinux-welcome-app.py'),
+    Match(wm_class='Arcolinux-tweak-tool.py'),
+    Match(wm_class='Arcolinux-calamares-tool.py'),
+    Match(wm_class='confirm'),
+    Match(wm_class='dialog'),
+    Match(wm_class='download'),
+    Match(wm_class='error'),
+    Match(wm_class='file_progress'),
+    Match(wm_class='notification'),
+    Match(wm_class='splash'),
+    Match(wm_class='toolbar'),
+    Match(wm_class='Arandr'),
+    Match(wm_class='feh'),
+    Match(wm_class='Galculator'),
+    Match(wm_class='arcolinux-logout'),
+    Match(wm_class='xfce4-terminal'),
 
 ],  fullscreen_border_width = 0, border_width = 0)
 auto_fullscreen = True
