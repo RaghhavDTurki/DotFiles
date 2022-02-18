@@ -33,7 +33,6 @@ nitrogen --restore &
 run nm-applet &
 run pamac-tray &
 run xfce4-power-manager &
-numlockx on &
 picom --config $HOME/.config/qtile/scripts/picom.conf &
 /usr/bin/emacs --daemon &
 redshift -O 3000
